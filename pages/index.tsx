@@ -1,6 +1,5 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import styles from '../styles/Home.module.css'
 import words from '../utils/words'
@@ -147,7 +146,7 @@ const Home: NextPage = () => {
                     if (input.value.length < correctWord.brand.length) {
                       input.value += ev.currentTarget.innerHTML;
                     }
-                  }}
+                  }} 
                 >
                   {ch.toUpperCase()}
                 </li>
