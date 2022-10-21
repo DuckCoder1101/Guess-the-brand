@@ -15,8 +15,8 @@
 
 .keyboard {
   padding: 22px;
-  width: 465px;
-  background-color: transparent;
+  width: auto;
+  max-width: 465px;
   border-radius: 8px;
 }
 
@@ -29,8 +29,7 @@
 
 .keyboard ul li {
   display: inline-block;
-  width: auto;
-  min-width: 46px;
+  width: calc((100% / 7) - 10px);
   height: 46px;
   margin: 5px;
   background-color: #b3b3b3;
@@ -38,19 +37,25 @@
   font-size: 180%;
   font-weight: bold;
   user-select: none;
-  transition: all 100ms ease-in-out;
+  transition: transform 100ms ease-in-out;
 }
 
 .keyboard ul li:hover {
-  transform: scale(1.2);
+  transform: scale(1.2) translateY(-10%);
 }
 
 .keyboard ul li:active {
   background-color: #a3a3a3;
 }
 
+.keyboard ul li:last-child {
+  width: auto;
+  padding: 0 3px;
+}
+
 .interface {
-  width: 465px;
+  max-width: 465px;
+  width: auto;
   padding: 12px 8px;
   margin: 15px 0;
 }
@@ -77,6 +82,10 @@
   background-color: #a7a7a7;
   border: 0;
   margin: 0 40%;
+}
+
+.interface button:hover {
+  background-color: #949494;
 }
 
 .tips {

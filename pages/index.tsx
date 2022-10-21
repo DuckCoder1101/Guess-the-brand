@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import styles from "../styles/Home.module.css";
 import words from "../utils/words";
 
+
 const Home: NextPage = () => {
   const [correctWord, setWord] = useState(words[0]);
   const [points, setPoints] = useState(0);
@@ -32,6 +33,13 @@ const Home: NextPage = () => {
     }, 4500);
   }, []);
 
+  const stopAudio = () => {
+    for (let audio of Array.from(document.querySelectorAll("audio"))) {
+      audio.pause();
+      audio.currentTime = 0;
+    }
+  };
+
   const nextLevel = () => {
     // Clear the tips and get another word
     setTip(0);
@@ -53,12 +61,23 @@ const Home: NextPage = () => {
 
   const newTip = () => {
     let tipsList = document.getElementById("tips") as HTMLUListElement;
+
+    // Get the wrong audio elements
+    let wrongEffect1 = document.getElementById("wrong-1") as HTMLAudioElement;
+    let wrongEffect2 = document.getElementById("wrong-2") as HTMLAudioElement;
+    // Stop all sounds
+    stopAudio();
+
     let tips = correctWord.tips;
 
     if (!tips[currentTip + 1]) {
+      wrongEffect2.play();
       setPoints(0);
+
       nextLevel();
     } else {
+      wrongEffect1.play();
+
       // Creates a new tip and push it to the list
       let li = tipsList.appendChild(document.createElement("li"));
 
@@ -76,6 +95,11 @@ const Home: NextPage = () => {
     let input = document.getElementById("word") as HTMLInputElement;
     let lower = input.value.toLowerCase();
 
+    // Get the correct audio element
+    let rightEffect = document.getElementById("correct") as HTMLAudioElement;
+    // Stop all sounds
+    stopAudio();
+
     if (input.value.length == 0 || !words.find((i) => i.brand == lower)) {
       input.value = "";
       input.placeholder = "Digite uma marca ou empresa válida!";
@@ -89,6 +113,8 @@ const Home: NextPage = () => {
       setPoints(
         currentTip == 0 ? points + 3 : currentTip == 1 ? points + 2 : points + 1
       );
+
+      rightEffect.play();
       nextLevel();
     } else {
       for (let char of lower) {
@@ -123,8 +149,14 @@ const Home: NextPage = () => {
         <meta name="description" content="Adivinhe a marca ou empresa!" />
         <title>Naming</title>
       </Head>
+
+      <audio id="sound" src="/click.mp3" />
+
+      <audio id="correct" src="/correto.mp3" />
+      <audio id="wrong-1" src="/errado1.mp3" />
+      <audio id="wrong-2" src="/errado2.mp3" />
+
       <main>
-        <audio id="sound" src="/click.mp3" />
         <input
           title="-"
           value="Guess the Brand"
