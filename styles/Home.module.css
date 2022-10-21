@@ -1,0 +1,141 @@
+@keyframes floating {
+  0%, 100% {
+    transform: translateY(0%);
+  }
+  50% {
+    transform: translateY(-16%);
+  }
+}
+
+.container {
+  max-width: 900px;
+  padding: 1rem;
+  margin: auto;
+}
+
+.keyboard {
+  padding: 22px;
+  width: 465px;
+  background-color: transparent;
+  border-radius: 8px;
+}
+
+.keyboard ul {
+  width: 100%;
+  padding: 0;
+  list-style: none;
+  margin: 0;
+}
+
+.keyboard ul li {
+  display: inline-block;
+  width: auto;
+  min-width: 46px;
+  height: 46px;
+  margin: 5px;
+  background-color: #b3b3b3;
+  text-align: center;
+  font-size: 180%;
+  font-weight: bold;
+  user-select: none;
+  transition: all 100ms ease-in-out;
+}
+
+.keyboard ul li:hover {
+  transform: scale(1.2);
+}
+
+.keyboard ul li:active {
+  background-color: #a3a3a3;
+}
+
+.interface {
+  width: 465px;
+  padding: 12px 8px;
+  margin: 15px 0;
+}
+
+.interface input {
+  width: 100%;
+  height: 30px;
+  background-color: #b3b3b3;
+  border: 1px solid gray;
+  font-size: 100%;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  text-align: center;
+  outline: none;
+}
+
+.interface input::placeholder {
+  color: red;
+}
+
+.interface button {
+  width: 20%;
+  height: 25px;
+  background-color: #a7a7a7;
+  border: 0;
+  margin: 0 40%;
+}
+
+.tips {
+  float: right;
+  margin: 0 2rem;
+  padding: 12px 18px;
+  border-radius: 8px;
+  background-color: #b3b3b3;
+  max-width: 40%;
+}
+
+.tips h3 {
+  text-align: center;
+  padding: 5px 8px;
+  margin: 0;
+}
+
+.tips ul {
+  margin: 0;
+}
+
+.tips ul li {
+  margin-bottom: 5px;
+}
+
+.footer {
+  width: 100%;
+  background-color: #b3b3b3;
+  padding: .5rem;
+  margin-top: 5%;
+}
+
+.footer a {
+  color: rgb(34, 98, 180);
+  text-decoration: underline;
+}
+
+.footer ul {
+  width: 100%;
+}
+
+.footer ul li {
+  display: inline-block;
+  width: 25%;
+  margin: 0;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.randomBrand {
+  margin: 1% 30%;
+  width: 40%;
+  padding: 15px;
+  outline: none;
+  background-color: #b3b3b3;
+  border: 0;
+  text-align: center;
+  font-size: 100%;
+  font-weight: bold;
+  text-transform: uppercase;
+  animation: floating 3s ease-in-out 0s infinite normal forwards;
+}
