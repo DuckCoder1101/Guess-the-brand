@@ -3,7 +3,7 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import styles from "../styles/Home.module.css";
 import words from "../utils/words";
-
+import stopAudio from "../utils/stopAudio";
 
 const Home: NextPage = () => {
   const [correctWord, setWord] = useState(words[0]);
@@ -18,27 +18,23 @@ const Home: NextPage = () => {
   }, [correctWord.brand]);
 
   useEffect(() => {
-    let input = document.getElementById("randomBrand") as HTMLInputElement;
+    // Get the board 
+    let board = document.getElementById("randomBrand") as HTMLInputElement;
 
     setInterval(async () => {
+      // Select a random brand to the boars
       let { brand } = await words[Math.floor(Math.random() * words.length)];
-      input.value = "";
+      board.value = "";
 
+      // If the brand is the first, changes him text
       if (brand == "null") brand = "Guess the Brand";
 
       for (let i = 0; i < brand.length; i++) {
-        input.value += brand[i];
+        board.value += brand[i];
         await new Promise((resolve) => setTimeout(resolve, 150));
       }
     }, 4500);
   }, []);
-
-  const stopAudio = () => {
-    for (let audio of Array.from(document.querySelectorAll("audio"))) {
-      audio.pause();
-      audio.currentTime = 0;
-    }
-  };
 
   const nextLevel = () => {
     // Clear the tips and get another word
@@ -60,15 +56,14 @@ const Home: NextPage = () => {
   };
 
   const newTip = () => {
-    let tipsList = document.getElementById("tips") as HTMLUListElement;
-
     // Get the wrong audio elements
     let wrongEffect1 = document.getElementById("wrong-1") as HTMLAudioElement;
     let wrongEffect2 = document.getElementById("wrong-2") as HTMLAudioElement;
-    // Stop all sounds
-    stopAudio();
 
     let tips = correctWord.tips;
+
+    // Stop all sounds
+    stopAudio();
 
     if (!tips[currentTip + 1]) {
       wrongEffect2.play();
@@ -76,63 +71,66 @@ const Home: NextPage = () => {
 
       nextLevel();
     } else {
-      wrongEffect1.play();
-
       // Creates a new tip and push it to the list
+      let tipsList = document.getElementById("tips") as HTMLUListElement;
       let li = tipsList.appendChild(document.createElement("li"));
 
       li.innerHTML = tips[currentTip + 1];
       li.className = "tip";
 
+      wrongEffect1.play();
       setTip(currentTip + 1);
     }
   };
 
   const sendWord = () => {
-    let brand = correctWord.brand;
-
-    // Get the value of the input and turns it to lower case.
+    // Get the audio and input elements
     let input = document.getElementById("word") as HTMLInputElement;
+    let rightEffect = document.getElementById("correct") as HTMLAudioElement;
+
+    // Brand and input's value in lower case
+    let brand = correctWord.brand;
     let lower = input.value.toLowerCase();
 
-    // Get the correct audio element
-    let rightEffect = document.getElementById("correct") as HTMLAudioElement;
     // Stop all sounds
     stopAudio();
 
     if (input.value.length == 0 || !words.find((i) => i.brand == lower)) {
       input.value = "";
       input.placeholder = "Digite uma marca ou empresa válida!";
-
-      return setTimeout(() => (input.placeholder = ""), 3000);
+      
+      return setTimeout(() => (input.placeholder = ""), 2800);
     }
 
-    // If the typed word is correct or not
-    if (lower === brand.toLowerCase()) {
-      // Very hard thernary, good luck to understand ;)
-      setPoints(
-        currentTip == 0 ? points + 3 : currentTip == 1 ? points + 2 : points + 1
-      );
 
+    if (lower == brand.toLowerCase()) {
+      let morePoints = 3;
+
+      if (currentTip == 1) morePoints--;
+      else if (currentTip == 2) morePoints -= 2;
+
+      // Plays the sound and set the points
       rightEffect.play();
+      setPoints(morePoints);
+
       nextLevel();
     } else {
       for (let char of lower) {
-        // The index of the char in the typed word (lower).
+        let list = Array.from(document.querySelectorAll("li"));
+        let li = list.find((i) => i.innerHTML.toLowerCase() == char) as HTMLLIElement;
+
+        // The index of the char in the typed word.
         let index = lower.indexOf(char);
-        // Get the list of li elements.
-        let li = Array.from(document.querySelectorAll("li")).find(
-          (i) => i.innerHTML.toLowerCase() == char
-        ) as HTMLLIElement;
 
         // Change the color of the keyboard buttons
-        if (li && brand.includes(char) && brand.indexOf(char) == index) {
+        if (li && brand.includes(char) && brand.indexOf(char) == index) 
           li.style.backgroundColor = "green";
-        } else if (li && brand.includes(char)) {
+        
+        else if (li && brand.includes(char)) 
           li.style.backgroundColor = "yellow";
-        } else if (li) {
+
+        else if (li) 
           li.style.backgroundColor = "red";
-        }
       }
 
       newTip();
@@ -194,17 +192,13 @@ const Home: NextPage = () => {
                 <li
                   key={index}
                   onClick={(ev) => {
-                    let input = document.getElementById(
-                      "word"
-                    ) as HTMLInputElement;
-                    let audio = document.getElementById(
-                      "sound"
-                    ) as HTMLAudioElement;
+                    let input = document.getElementById("word" ) as HTMLInputElement;
+                    let audio = document.getElementById("sound") as HTMLAudioElement;
 
                     if (input.value.length < correctWord.brand.length) {
                       input.value += ev.currentTarget.innerHTML;
 
-                      audio.volume = 0.6;
+                      stopAudio();
                       audio.play();
                     }
                   }}
