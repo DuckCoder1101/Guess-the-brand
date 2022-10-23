@@ -62,7 +62,15 @@ const words: Array<wordmodel> = [
       "Maior fabricante de bebidas não-alcoólicas, como refrigerantes, sucos e energéticos.",
       "É dona da Dell Valle, Monster, Fanta, ****-****, e etc."
     ]
-  }
+  },
+  {
+    brand: "microsoft",
+    tips: [
+      "Marca americana",
+      "Dona e criadora de um grande sistema operacional.",
+      "Criada por Bill Gates."
+    ],
+  },
 ];
 
 export default words

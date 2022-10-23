@@ -7,8 +7,8 @@ import stopAudio from "../utils/stopAudio";
 
 const Home: NextPage = () => {
   const [correctWord, setWord] = useState(words[0]);
-  const [points, setPoints] = useState(0);
   const [currentTip, setTip] = useState(0);
+  const [points, setPoints] = useState(0);
 
   // Set the first random word
   useEffect(() => {
@@ -145,7 +145,7 @@ const Home: NextPage = () => {
       <Head>
         <meta charSet="UTF-8" />
         <meta name="description" content="Adivinhe a marca ou empresa!" />
-        <title>Naming</title>
+        <title>Guess the Brand</title>
       </Head>
 
       <audio id="sound" src="/click.mp3" />
@@ -156,24 +156,22 @@ const Home: NextPage = () => {
 
       <main>
         <input
-          title="-"
           value="Guess the Brand"
           id="randomBrand"
           className={styles.randomBrand}
           type="text"
           readOnly
         />
+        
         <section className={styles.interface}>
           <input
             id="word"
-            title="word"
             type="text"
             maxLength={correctWord.brand.length}
             onKeyDown={(ev) => {
               if (ev.key == "Enter") sendWord();
             }}
-          />
-          <br />
+          /> <br />
           <button onClick={sendWord}>Enviar</button>
         </section>
 
@@ -229,4 +227,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default Home
